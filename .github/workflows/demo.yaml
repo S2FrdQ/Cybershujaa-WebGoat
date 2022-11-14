@@ -17,19 +17,16 @@ jobs:
  secret_scanning:
    runs-on: ubuntu-latest
    steps:
-     - name: TruffleHog OSS
-       # You may pin to the exact commit or the version.
-       # uses: trufflesecurity/trufflehog@ecd25784f5a64c5add192b72fc5764ce5c320977
-       uses: trufflesecurity/trufflehog@v3.16.4
-       with:
-         # Repository path
-         path: 
-         # Start scanning from here (usually main branch).
-         base: 
-         # Scan commits until here (usually dev branch).
-         head: # optional
-         # Extra args to be passed to the trufflehog cli.
-         extra_args: # optional, default is 
+      - uses: actions/checkout@v2
+
+      - run: docker run --rm -v $(pwd):/src trufflesecurity/trufflehog file:///src --json > trufflehog-output.json
+        continue-on-error: true             # allow the build to fail
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: TruffleHog
+          path: trufflehog-output.json
+        if: always()
 
  integration:
    runs-on: ubuntu-latest
