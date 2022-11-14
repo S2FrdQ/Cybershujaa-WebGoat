@@ -13,6 +13,23 @@ jobs:
    runs-on: ubuntu-latest
    steps: - run: echo "This is a test step"
 
+ secret_scanning:
+   runs-on: ubuntu-latest
+   steps:
+     - name: TruffleHog OSS
+       # You may pin to the exact commit or the version.
+       # uses: trufflesecurity/trufflehog@ecd25784f5a64c5add192b72fc5764ce5c320977
+       uses: trufflesecurity/trufflehog@v3.16.4
+       with:
+         # Repository path
+         path: 
+         # Start scanning from here (usually main branch).
+         base: 
+         # Scan commits until here (usually dev branch).
+         head: # optional
+         # Extra args to be passed to the trufflehog cli.
+         extra_args: # optional, default is 
+
  integration:
    runs-on: ubuntu-latest
    steps:
